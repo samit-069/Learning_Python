@@ -1,0 +1,23 @@
+Code Orginization and Backend Mindset
+
+1. Backend code must be:
+    -Readable
+    -maintainable
+    -extensible
+
+2.Core Backend Rule
+-One responsiblity per function
+
+3.Logical Grouping
+Think in Section:
+    -Data
+    -Presistence
+    -CRUD Logical
+    -Program Flow
+
+4.Introducing main()
+Python doesn't force main(), but backend developers use it 
+This gives you:
+    -One clear entry point
+    -Better Readability
+    -Easier testing
