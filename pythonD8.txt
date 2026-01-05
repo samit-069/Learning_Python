@@ -1,0 +1,26 @@
+Day 8
+Modules, Imports and Multi-File Project Structure
+
+1.Modules:
+    In python Modules are simply a .py file that can be imported into another .py files
+
+2.Import
+    Reuse of code file
+
+3.if __name__ == "__main__"
+    when importing a file, python runs it 
+    This prevents accidental exicution:
+        def main():
+            print("program is running")
+
+        if __name__ == "__main__":
+            main()
+
+    -Runs only when file is  exicuted directly
+    -Doesn't run when imported
+
+4.Global state accross file
+    If you do this:
+        #storage.py
+        contact = {}
+    and import it elsewhere, same dictionary is shaired
