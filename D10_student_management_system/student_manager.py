@@ -2,8 +2,8 @@ import json
 
 class StudentManager:
     def __init__(self, file_name="students.json"):
-        self.students = []
         self.file_name = file_name
+        self.students = {}
         self.load_students()
 
     def load_students(self):
@@ -11,7 +11,7 @@ class StudentManager:
             with open(self.file_name, "r") as file:
                 self.students = json.load(file)
         except FileNotFoundError:
-            self.students = []
+            self.students = {}
 
     def save_students(self):
         with open(self.file_name, "w") as file:
@@ -22,11 +22,18 @@ class StudentManager:
             roll = input("Enter roll number of student: ")
             if roll.isdigit():
                 roll = int(roll)
-                break
+                if roll in self.students:
+                    print("Roll number exists!!")
+                else:
+                    break
             else:
                 print("Not a number")
-
-        name = input("Enter name of student: ")
+        while True:
+            name = input("Enter name of student: ")
+            if len(name) == 0:
+                print("Please enter name")
+            else:
+                break
 
         while True:
             marks = input("Enter marks of student: ")
@@ -36,12 +43,10 @@ class StudentManager:
             else:
                 print("Not a number")
 
-        self.students.append({
-            "roll": roll,
+        self.students[roll]={
             "name": name,
             "marks": marks
-        })
-
+        }
         self.save_students()
 
     def view_students(self):
@@ -49,10 +54,10 @@ class StudentManager:
             print("No students found.")
             return
 
-        for student in self.students:
-            print(f"Roll no.: {student['roll']}")
-            print(f"Name: {student['name']}")
-            print(f"Marks: {student['marks']}")
+        for roll, data in self.students.items():
+            print(f"Roll no.: {roll}")
+            print(f"Name: {data['name']}")
+            print(f"Marks: {data['marks']}")
             print("-" * 20)
 
     def search_student(self):
@@ -64,17 +69,12 @@ class StudentManager:
             else:
                 print("Not a number")
 
-        found = False
-        for student in self.students:
-            if student['roll'] == ser_rol:
-                print(f"Roll no.: {student['roll']}")
-                print(f"Name: {student['name']}")
-                print(f"Marks: {student['marks']}")
-                print("-" * 20)
-                found = True
-                break
-
-        if not found:
+        if ser_rol in self.students:
+            print(f"Roll no.: {ser_rol}")
+            print(f"Name: {self.students[ser_rol]['name']}")
+            print(f"Marks: {self.students[ser_rol]['marks']}")
+            print("-" * 20)                   
+        else:
             print("Roll Number doesn't exist")
 
     def cal_avg(self):
@@ -83,8 +83,8 @@ class StudentManager:
             return
 
         total = 0
-        for student in self.students:
-            total += student['marks']
+        for data in self.students.values():
+            total += data['marks']
 
         avg = total / len(self.students)
         print(f"Average of class is: {avg:.2f}")
